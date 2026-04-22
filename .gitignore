@@ -1,0 +1,11 @@
+# Default ignored files
+/local.properties
+/.idea/
+/.gradle/
+/build/
+/app/build/
+*.iml
+.DS_Store
+local.properties
+*.jks
+*.keystore

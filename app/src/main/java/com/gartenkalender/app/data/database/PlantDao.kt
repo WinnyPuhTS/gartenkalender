@@ -24,10 +24,10 @@ interface PlantDao {
 
     @Query("""
         SELECT * FROM plants
-        WHERE sowingIndoorMonths LIKE '%' || :month || '%'
-           OR sowingOutdoorMonths LIKE '%' || :month || '%'
-           OR plantingMonths LIKE '%' || :month || '%'
-           OR harvestMonths LIKE '%' || :month || '%'
+        WHERE sowingIndoorMonths LIKE '%,' || :month || ',%'
+           OR sowingOutdoorMonths LIKE '%,' || :month || ',%'
+           OR plantingMonths LIKE '%,' || :month || ',%'
+           OR harvestMonths LIKE '%,' || :month || ',%'
         ORDER BY name ASC
     """)
     fun getPlantsForMonth(month: Int): Flow<List<Plant>>

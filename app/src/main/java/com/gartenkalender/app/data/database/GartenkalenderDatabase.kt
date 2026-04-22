@@ -23,12 +23,28 @@ abstract class GartenkalenderDatabase : RoomDatabase() {
         const val DATABASE_NAME = "gartenkalender.db"
 
         fun create(context: Context): GartenkalenderDatabase {
-            return Room.databaseBuilder(
+            var instance: GartenkalenderDatabase? = null
+            val db = Room.databaseBuilder(
                 context,
                 GartenkalenderDatabase::class.java,
                 DATABASE_NAME
             )
+                .addCallback(object : Callback() {
+                    override fun onCreate(db: SupportSQLiteDatabase) {
+                        super.onCreate(db)
+                        // Seed embedded plant data on first creation
+                        CoroutineScope(Dispatchers.IO).launch {
+                            instance?.plantDao()?.let { dao ->
+                                if (dao.getCount() == 0) {
+                                    dao.insertAll(PlantSeedData.getPlants())
+                                }
+                            }
+                        }
+                    }
+                })
                 .build()
+            instance = db
+            return db
         }
     }
 }
